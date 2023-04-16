@@ -1,5 +1,3 @@
-# MyLists
-
 # MyArrayList 
 Methods: 
 
