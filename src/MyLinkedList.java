@@ -43,6 +43,7 @@ public class MyLinkedList<E> implements MyList<E> {
         }
         else if (index == size) {
             add(element);
+            return;
         }
         else {
             Node current = head;
@@ -97,13 +98,13 @@ public class MyLinkedList<E> implements MyList<E> {
         else {
             Node current = head;
             for (int i = 0; i < size; i++) {
-                current = current.next;
                 if (current.data == element) {
                     size--;
                     current.prev.next = current.next;
                     current.next.prev = current.prev;
                     return true;
                 }
+                current = current.next;
             }
         }
 
@@ -114,25 +115,10 @@ public class MyLinkedList<E> implements MyList<E> {
     public E remove(int index) {
         if (index >= size) throw new IndexOutOfBoundsException();
 
-        Node current;
-        if (index < size - index) {
-            current = head;
-            for (int i = 0; i < index; i++) {
-                current = current.next;
-            }
-        }
-        else {
-            current = tail;
-            for (int i = size - 1; i > index; i--) {
-                current = current.prev;
-            }
-        }
-        current.prev.next = current.next;
-        current.next.prev = current.prev;
+        E removedElement = get(index);
+        remove(removedElement);
 
-        size--;
-
-        return current.data;
+        return removedElement;
     }
 
     @Override
@@ -142,22 +128,38 @@ public class MyLinkedList<E> implements MyList<E> {
 
     @Override
     public boolean contains(Object o) {
-        return false;
+        return indexOf(o) > -1;
     }
 
     @Override
     public void clear() {
-
+        head = tail = null;
+        size = 0;
     }
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+        Node current = head;
+        for (int i = 0; i < size; i++) {
+            if (current.data == o)
+                return i;
+            current = current.next;
+        }
+
+        return -1;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        int index = -1;
+        Node current = head;
+        for (int i = 0; i < size; i++) {
+            if (current.data == o)
+                index = i;
+            current = current.next;
+        }
+
+        return index;
     }
 
     @Override
