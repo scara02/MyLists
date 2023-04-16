@@ -34,15 +34,18 @@ public class MyArrayList<E> implements MyList<E> {
 
     @Override
     public void add(E element, int index) {
+        if (index > size) throw new IndexOutOfBoundsException();
+
         if (size == arr.length) {
             increaseSize();
+            arr[index] = element;
         }
-
-        for (int i = size; i > index; i--) {
-            arr[i] = arr[i - 1];
+        else {
+            for (int i = size; i > index; i--) {
+                arr[i] = arr[i - 1];
+            }
+            arr[index] = element;
         }
-        arr[index] = element;
-
         size++;
     }
 
