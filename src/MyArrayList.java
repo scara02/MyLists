@@ -33,6 +33,20 @@ public class MyArrayList<E> implements MyList<E> {
     }
 
     @Override
+    public void add(E element, int index) {
+        if (size == arr.length) {
+            increaseSize();
+        }
+
+        for (int i = size; i > index; i--) {
+            arr[i] = arr[i - 1];
+        }
+        arr[index] = element;
+
+        size++;
+    }
+
+    @Override
     public E get(int index) {
         if (index >= size) throw new IndexOutOfBoundsException();
 
@@ -40,7 +54,18 @@ public class MyArrayList<E> implements MyList<E> {
     }
 
     @Override
-    public void remove(int index) {
+    public boolean remove(E element) {
+        for (int i = 0; i < size; i++) {
+            if (arr[i] == element) {
+                remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public E remove(int index) {
         if (index >= size) throw new IndexOutOfBoundsException();
 
         for (int i = index; i < size; i ++) {
@@ -48,12 +73,51 @@ public class MyArrayList<E> implements MyList<E> {
         }
 
         size--;
+
+        return (E) arr[index];
     }
 
     @Override
     public int size() {
         return size;
     }
+
+    @Override
+    public boolean contains(Object o) {
+        return indexOf(o) > -1;
+    }
+
+    @Override
+    public void clear() {
+        for (int i = 0; i < size; i++) {
+            arr[i] = null;
+        }
+        size = 0;
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        for (int i = 0; i < size; i++) {
+            if(o.equals(arr[i]))
+                return i;
+        }
+
+        return -1;
+    }
+
+    @Override
+    public int lastIndexOf(Object o) {
+        int index = -1;
+        for (int i = 0; i < size; i++) {
+            if (o.equals(arr[i]))
+                index = i;
+        }
+
+        return index;
+    }
+
+    @Override
+    public void sort() {}
 
     @Override
     public Iterator<E> iterator() {
